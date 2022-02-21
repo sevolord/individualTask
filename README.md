@@ -18,5 +18,5 @@ This project was completed to complete the assignment in the OOP discipline
 Приложение могут использовать несколько пользователей. Для работы с приложением необходимо зарегистрироваться. После авторизации пользователю отображается его список дел.
 
 ![Иллюстрация к проекту](images/login.png)
+![alt text](images/Main form.png)
 
-![Иллюстрация к проекту](images/Main form.png)
