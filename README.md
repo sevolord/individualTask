@@ -16,5 +16,5 @@ This project was completed to complete the assignment in the OOP discipline
 удалить дело из списка "готово".
 
 Приложение могут использовать несколько пользователей. Для работы с приложением необходимо зарегистрироваться. После авторизации пользователю отображается его список дел.
-images/login.png
-images/Main form.png
+![Иллюстрация к проекту](images/login.png)
+![Иллюстрация к проекту](images/Main form.png)
