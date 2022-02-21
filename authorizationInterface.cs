@@ -12,6 +12,7 @@ namespace WindowsFormsApp1
 {
     public partial class authorizationInterface : Form
     {
+        ToDoList window = new ToDoList();
         public authorizationInterface()
         {
             InitializeComponent();
@@ -20,15 +21,24 @@ namespace WindowsFormsApp1
         private void BLogin_Click(object sender, EventArgs e)
         {
             //проверка логина и пароля
-            ToDoList window = new ToDoList();
+            
             this.Hide(); // при закрытии программы нужно умышле убивать форму авторизации... 
             window.Show();
             
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {           
+           //
+
+        }
+
+        private void BNewUser_Click(object sender, EventArgs e)
         {
-            //создание нового юзера
+            window.CreateUser(TBUsername.Text,TBPassword.Text);
+            window.Text=$"{TBUsername.Text}'s To-do list";
+            this.Hide(); // при закрытии программы нужно умышле убивать форму авторизации... 
+            window.Show();
         }
     }
 }

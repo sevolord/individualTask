@@ -12,12 +12,20 @@ namespace WindowsFormsApp1
 {
     public partial class ToDoList : Form
     {
+        User g_currenUser = new User();
         public ToDoList()
         {
             InitializeComponent();
             
         }
+        public void CreateUser(string login, string pass)
+        {
+            g_currenUser.setUserData(login, pass);
+        }
 
-
+        private void BNewTask_Click(object sender, EventArgs e)
+        {
+            //
+        }
     }
 }

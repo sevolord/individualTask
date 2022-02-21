@@ -14,5 +14,19 @@ namespace WindowsFormsApp1
         private int idTaskUser;
         private int status;
         private DateTime dateTask; // будем считать что дата дедлайна 
+        private static int TaskCount = 0;
+
+        public Task(string nameTask, string descriptionTask, DateTime dateTask, int idTaskUser)
+        {
+            this.nameTask = nameTask;
+            this.descriptionTask = descriptionTask;
+            this.dateTask = dateTask;
+            this.status = 0;
+            this.idTaskUser = idTaskUser;
+            this.idTaskUser = ++TaskCount;
+        }
+
+
     }
+
 }

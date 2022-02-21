@@ -39,6 +39,8 @@ namespace WindowsFormsApp1
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.BEdit = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -47,8 +49,6 @@ namespace WindowsFormsApp1
             this.LBCompleted = new System.Windows.Forms.ListBox();
             this.LBProgress = new System.Windows.Forms.ListBox();
             this.LBToDo = new System.Windows.Forms.ListBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -121,6 +121,7 @@ namespace WindowsFormsApp1
             this.BNewTask.TabIndex = 1;
             this.BNewTask.Text = "New task";
             this.BNewTask.UseVisualStyleBackColor = true;
+            this.BNewTask.Click += new System.EventHandler(this.BNewTask_Click);
             // 
             // label3
             // 
@@ -165,6 +166,22 @@ namespace WindowsFormsApp1
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Current task";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(638, 15);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(55, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Task date";
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(568, 31);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 5;
             // 
             // BEdit
             // 
@@ -237,22 +254,6 @@ namespace WindowsFormsApp1
             this.LBToDo.Name = "LBToDo";
             this.LBToDo.Size = new System.Drawing.Size(250, 303);
             this.LBToDo.TabIndex = 3;
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(568, 31);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 5;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(638, 15);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(55, 13);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Task date";
             // 
             // ToDoList
             // 

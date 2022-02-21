@@ -87,7 +87,7 @@ namespace WindowsFormsApp1
             this.BNewUser.TabIndex = 5;
             this.BNewUser.Text = "New user";
             this.BNewUser.UseVisualStyleBackColor = true;
-            this.BNewUser.Click += new System.EventHandler(this.button1_Click);
+            this.BNewUser.Click += new System.EventHandler(this.BNewUser_Click);
             // 
             // authorizationInterface
             // 
