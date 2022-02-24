@@ -12,6 +12,7 @@ namespace WindowsFormsApp1
 {
     public partial class authorizationInterface : Form
     {
+        bool debug = true; // флаш тестирования, пропускаем некоторые шаги логики
         ToDoList window = new ToDoList();
         public authorizationInterface()
         {
@@ -29,7 +30,13 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {           
-           //
+           if (debug)
+            {
+                window.CreateUser("Tester", "123");
+                window.Text = $"Tester's To-do list";
+                this.Hide(); // при закрытии программы нужно умышле убивать форму авторизации... 
+                window.Show();
+            }
 
         }
 

@@ -23,9 +23,21 @@ namespace WindowsFormsApp1
             this.dateTask = dateTask;
             this.status = 0;
             this.idTaskUser = idTaskUser;
-            this.idTaskUser = ++TaskCount;
+            this.IDTask = ++TaskCount;
         }
-
+        public Task()
+        {
+            this.nameTask = "";
+            this.descriptionTask = "";
+            this.dateTask = DateTime.Now;
+            this.status = 0;
+            this.idTaskUser = 0;
+            this.idTaskUser = 0;
+        }
+        public string getTaskName() => this.nameTask;
+        public string getTaskDescription() => this.descriptionTask;
+        public DateTime getTaskDate() => this.dateTask;
+        public int getTaskID() => this.IDTask;
 
     }
 

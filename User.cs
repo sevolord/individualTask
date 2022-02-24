@@ -27,9 +27,12 @@ namespace WindowsFormsApp1
         }
         public void setUserData(string nameUser, string passUser)
         {
+            //сеттер. т.к. мы сначала созадем пользователя, а потом присваеваем значения
             this.nameUser = nameUser;
             this.passUser = passUser;
         }
+        public int getUserID() => this.IDUser;
+
 
 
     }
