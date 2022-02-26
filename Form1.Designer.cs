@@ -67,7 +67,7 @@ namespace WindowsFormsApp1
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(796, 626);
+            this.groupBox1.Size = new System.Drawing.Size(796, 629);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tasks lists";
@@ -79,7 +79,7 @@ namespace WindowsFormsApp1
             this.groupBox4.Controls.Add(this.BLeft);
             this.groupBox4.Controls.Add(this.BNewTask);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox4.Location = new System.Drawing.Point(3, 353);
+            this.groupBox4.Location = new System.Drawing.Point(3, 356);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(790, 44);
             this.groupBox4.TabIndex = 10;
@@ -94,6 +94,7 @@ namespace WindowsFormsApp1
             this.BDel.TabIndex = 4;
             this.BDel.Text = "Delete task";
             this.BDel.UseVisualStyleBackColor = true;
+            this.BDel.Click += new System.EventHandler(this.BDel_Click);
             // 
             // BRight
             // 
@@ -103,6 +104,7 @@ namespace WindowsFormsApp1
             this.BRight.TabIndex = 3;
             this.BRight.Text = "->";
             this.BRight.UseVisualStyleBackColor = true;
+            this.BRight.Click += new System.EventHandler(this.BRight_Click);
             // 
             // BLeft
             // 
@@ -112,6 +114,7 @@ namespace WindowsFormsApp1
             this.BLeft.TabIndex = 2;
             this.BLeft.Text = "<-";
             this.BLeft.UseVisualStyleBackColor = true;
+            this.BLeft.Click += new System.EventHandler(this.BLeft_Click);
             // 
             // BNewTask
             // 
@@ -160,7 +163,7 @@ namespace WindowsFormsApp1
             this.groupBox3.Controls.Add(this.TBTaskName);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Location = new System.Drawing.Point(3, 397);
+            this.groupBox3.Location = new System.Drawing.Point(3, 400);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(790, 226);
             this.groupBox3.TabIndex = 6;
@@ -185,12 +188,13 @@ namespace WindowsFormsApp1
             // 
             // BEdit
             // 
-            this.BEdit.Location = new System.Drawing.Point(348, 204);
+            this.BEdit.Location = new System.Drawing.Point(348, 200);
             this.BEdit.Name = "BEdit";
             this.BEdit.Size = new System.Drawing.Size(75, 23);
             this.BEdit.TabIndex = 4;
-            this.BEdit.Text = "Edit task";
+            this.BEdit.Text = "Create task";
             this.BEdit.UseVisualStyleBackColor = true;
+            this.BEdit.Visible = false;
             this.BEdit.Click += new System.EventHandler(this.BEdit_Click);
             // 
             // RTBDescription
@@ -235,6 +239,7 @@ namespace WindowsFormsApp1
             this.LBCompleted.Name = "LBCompleted";
             this.LBCompleted.Size = new System.Drawing.Size(250, 303);
             this.LBCompleted.TabIndex = 5;
+            this.LBCompleted.SelectedIndexChanged += new System.EventHandler(this.LBCompleted_SelectedIndexChanged);
             // 
             // LBProgress
             // 
@@ -245,6 +250,7 @@ namespace WindowsFormsApp1
             this.LBProgress.Name = "LBProgress";
             this.LBProgress.Size = new System.Drawing.Size(250, 303);
             this.LBProgress.TabIndex = 4;
+            this.LBProgress.SelectedIndexChanged += new System.EventHandler(this.LBProgress_SelectedIndexChanged);
             // 
             // LBToDo
             // 
@@ -262,7 +268,7 @@ namespace WindowsFormsApp1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 626);
+            this.ClientSize = new System.Drawing.Size(796, 629);
             this.Controls.Add(this.groupBox1);
             this.Name = "ToDoList";
             this.Text = "To-do list";

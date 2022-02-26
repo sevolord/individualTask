@@ -12,11 +12,11 @@ namespace WindowsFormsApp1
 {
     public partial class ToDoList : Form
     {
+        //глобальные переменные
         User g_currenUser = new User();
         Task g_currentTask = new Task();
-        List<Task> ToDolist = new List<Task>();
-        List<Task> Progresslist = new List<Task>();
-        List<Task> Completedlist = new List<Task>();
+        List<Task> Tasklist = new List<Task>();
+
         public ToDoList()
         {
             InitializeComponent();
@@ -30,21 +30,15 @@ namespace WindowsFormsApp1
         private void BNewTask_Click(object sender, EventArgs e)
         {
             TBTaskName.Focus();
-            BEdit.Text = "Create task";
+            BEdit.Visible = true;
         }
 
         private void BEdit_Click(object sender, EventArgs e)
         {
-            if (BEdit.Text == "Create task")
-            {
-                Task newTask = new Task(TBTaskName.Text, RTBDescription.Text, DTPTaskDate.Value, g_currenUser.getUserID()); ;
-                ToDolist.Add(newTask);
-                BEdit.Text = "Edit task";
-            }
-            else if (BEdit.Text == "Edit task")
-            {
-                //сюда напишем коррекцию выделеной задачи
-            }
+            Task newTask = new Task(TBTaskName.Text, RTBDescription.Text, DTPTaskDate.Value, g_currenUser.getUserID()); ;
+            Tasklist.Add(newTask);
+            BEdit.Visible = false;
+            
             UpdateLists();
         }
 
@@ -52,23 +46,47 @@ namespace WindowsFormsApp1
         {
             //перерисовываем содержимое листбоксов согласно массивам тасков
             LBToDo.Items.Clear();
-            foreach (Task task in ToDolist) LBToDo.Items.Add(Convert.ToString(task.getTaskID()) + " " + task.getTaskName());
             LBProgress.Items.Clear();
-            foreach (Task task in Progresslist) LBProgress.Items.Add(Convert.ToString(task.getTaskID()) + " " + task.getTaskName());
             LBCompleted.Items.Clear();
-            foreach (Task task in Completedlist) LBCompleted.Items.Add(Convert.ToString(task.getTaskID()) + " " + task.getTaskName());
+            foreach (Task task in Tasklist)
+            {
+                if (task.getTaskStatus() == 1) LBToDo.Items.Add(Convert.ToString(task.getTaskID()) + " " + task.getTaskName());
+                else if (task.getTaskStatus() == 2) LBProgress.Items.Add(Convert.ToString(task.getTaskID()) + " " + task.getTaskName());
+                else if (task.getTaskStatus() == 3) LBCompleted.Items.Add(Convert.ToString(task.getTaskID()) + " " + task.getTaskName());
+            }
+            
         }
 
-        private void LBToDo_SelectedIndexChanged(object sender, EventArgs e) //событие клика на листбокс с задачами
+        private void LBToDo_SelectedIndexChanged(object sender, EventArgs e) //событие клика на задачу в листбоксе
         {   // выводим информацию о выделенной задаче в строку с именем, поле с описанием, поле с датой
             // финт ушами: т.к. id task не содержится в listbox, т.к. нужно его перегружать, то сразу записываем id в "имя", потом считываем и ищем в глобальном списке нужную задачу
-            string nameTaskForListBox = LBToDo.SelectedItem.ToString();
-            int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0,1));
-            //g_currentTask = ToDolist.Find(Task => Task.getTaskID() == curTaskID); // не разобрался ближде к полуночи, как работает find
-            foreach (Task task in ToDolist)
-            {
-                if (task.getTaskID() == curTaskID) g_currentTask = task;
+            string nameTaskForListBox;
+            try { nameTaskForListBox = LBToDo.SelectedItem.ToString(); }
+            catch { return; } //потому что можно щелкнуть мимо позиции в листе...
+            int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
+            g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
+            TBTaskName.Text = g_currentTask.getTaskName();
+            RTBDescription.Text = g_currentTask.getTaskDescription();
+            DTPTaskDate.Value = g_currentTask.getTaskDate();
             }
+        private void LBProgress_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string nameTaskForListBox;
+            try { nameTaskForListBox = LBProgress.SelectedItem.ToString(); }
+            catch { return; }
+            int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
+            g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
+            TBTaskName.Text = g_currentTask.getTaskName();
+            RTBDescription.Text = g_currentTask.getTaskDescription();
+            DTPTaskDate.Value = g_currentTask.getTaskDate();
+        }
+        private void LBCompleted_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string nameTaskForListBox;
+            try { nameTaskForListBox = LBCompleted.SelectedItem.ToString(); }
+            catch { return; }
+            int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
+            g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
             TBTaskName.Text = g_currentTask.getTaskName();
             RTBDescription.Text = g_currentTask.getTaskDescription();
             DTPTaskDate.Value = g_currentTask.getTaskDate();
@@ -77,6 +95,38 @@ namespace WindowsFormsApp1
         private void LBToDo_Click(object sender, EventArgs e)
         {
             //
+        }
+
+        private void BLeft_Click(object sender, EventArgs e)
+        {
+            int stat = g_currentTask.getTaskStatus();
+            int ind = Tasklist.FindIndex(item => item.getTaskID() == g_currentTask.getTaskID());
+            if (stat == 2) Tasklist[ind].setStatus(1);
+            if (stat == 3) Tasklist[ind].setStatus(2);
+            g_currentTask = Tasklist[ind];
+            UpdateLists();
+        }
+
+        private void BRight_Click(object sender, EventArgs e)
+        {
+            int stat = g_currentTask.getTaskStatus();
+            int ind = Tasklist.FindIndex(item => item.getTaskID() == g_currentTask.getTaskID());
+            if (stat == 1) Tasklist[ind].setStatus(2);
+            if (stat == 2) Tasklist[ind].setStatus(3);
+            g_currentTask = Tasklist[ind];
+            UpdateLists();
+        }
+
+        private void BDel_Click(object sender, EventArgs e)
+        {
+            int stat = g_currentTask.getTaskStatus();
+            int ind = Tasklist.FindIndex(item => item.getTaskID() == g_currentTask.getTaskID());
+            if (stat == 3) Tasklist.RemoveAt(ind);
+            g_currentTask = null;
+            UpdateLists();
+            TBTaskName.Text = "";
+            RTBDescription.Text = "";
+            DTPTaskDate.Value = DateTime.Now;
         }
     }
 }

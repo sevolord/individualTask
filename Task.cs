@@ -12,7 +12,7 @@ namespace WindowsFormsApp1
         private string nameTask;
         private string descriptionTask;
         private int idTaskUser;
-        private int status;
+        private int status; // 1 - сделать, 2 - в прогрессе, 3 - завершено
         private DateTime dateTask; // будем считать что дата дедлайна 
         private static int TaskCount = 0;
 
@@ -21,7 +21,7 @@ namespace WindowsFormsApp1
             this.nameTask = nameTask;
             this.descriptionTask = descriptionTask;
             this.dateTask = dateTask;
-            this.status = 0;
+            this.status = 1;
             this.idTaskUser = idTaskUser;
             this.IDTask = ++TaskCount;
         }
@@ -38,6 +38,9 @@ namespace WindowsFormsApp1
         public string getTaskDescription() => this.descriptionTask;
         public DateTime getTaskDate() => this.dateTask;
         public int getTaskID() => this.IDTask;
+        public int getTaskStatus() => this.status;
+
+        public void setStatus(int newStatus) => this.status = newStatus;
 
     }
 
