@@ -272,6 +272,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.groupBox1);
             this.Name = "ToDoList";
             this.Text = "To-do list";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ToDoList_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);

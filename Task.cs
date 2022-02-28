@@ -40,6 +40,10 @@ namespace WindowsFormsApp1
         public int getTaskID() => this.IDTask;
         public int getTaskStatus() => this.status;
 
+        public void setTaskID(int newID) => this.IDTask = newID;
+        public void setTaskName(string newName) => this.nameTask = newName;
+        public void setTaskDescription(string newDesc) => this.descriptionTask = newDesc;
+        public void setTaskDate(DateTime newDate) => this.dateTask = newDate;
         public void setStatus(int newStatus) => this.status = newStatus;
 
     }

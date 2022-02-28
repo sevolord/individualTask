@@ -21,11 +21,18 @@ namespace WindowsFormsApp1
 
         private void BLogin_Click(object sender, EventArgs e)
         {
-            //проверка логина и пароля
-            
-            this.Hide(); // при закрытии программы нужно умышле убивать форму авторизации... 
-            window.Show();
-            
+            if (window.LoadUserDataFromFile(TBUsername.Text, TBPassword.Text))
+            {
+                this.Hide(); // при закрытии программы нужно умышле убивать форму авторизации... 
+                window.Show();
+            }
+            else
+            {
+                string message = "Вход не выполнен: пользователь не зарегестрирован или произошла ошибка";
+                string caption = "Внимание!";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+            } 
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,7 +42,8 @@ namespace WindowsFormsApp1
                 window.CreateUser("Tester", "123");
                 window.Text = $"Tester's To-do list";
                 this.Hide(); // при закрытии программы нужно умышле убивать форму авторизации... 
-                window.Show();
+                window.ShowDialog();
+                this.Close();
             }
 
         }

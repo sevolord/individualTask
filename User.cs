@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace WindowsFormsApp1
 {
     class User
@@ -32,6 +33,9 @@ namespace WindowsFormsApp1
             this.passUser = passUser;
         }
         public int getUserID() => this.IDUser;
+        public string getUserName() => this.nameUser;
+        public string getUserPass() => this.passUser; 
+
 
 
 

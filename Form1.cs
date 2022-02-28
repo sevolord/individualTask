@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WindowsFormsApp1
 {
@@ -127,6 +128,67 @@ namespace WindowsFormsApp1
             TBTaskName.Text = "";
             RTBDescription.Text = "";
             DTPTaskDate.Value = DateTime.Now;
+        }
+        public bool SaveUserDataToFile()
+        {
+            String namefile = g_currenUser.getUserName();
+            namefile += ".txt";
+            using (FileStream fileStream = new FileStream(namefile, FileMode.Create))
+            {
+                StreamWriter streamWriter = new StreamWriter(fileStream);
+                streamWriter.AutoFlush = true;
+                //int countTask = Tasklist.Count;
+                streamWriter.WriteLine(g_currenUser.getUserPass());
+                streamWriter.WriteLine(Tasklist.Count);
+                foreach (Task task in Tasklist)
+                {
+                    streamWriter.WriteLine(task.getTaskID());
+                    streamWriter.WriteLine(task.getTaskName());
+                    streamWriter.WriteLine(task.getTaskDescription());
+                    streamWriter.WriteLine(task.getTaskDate());
+                    streamWriter.WriteLine(task.getTaskStatus());
+                }
+                
+                return true;
+            }
+            return false;
+        }
+
+        public bool LoadUserDataFromFile(String user, String pass)
+        {
+            String namefile = user;
+            namefile += ".txt";
+            string str;
+            using (FileStream fileStream = new FileStream(namefile, FileMode.Open))
+            {
+                StreamReader streamReader = new StreamReader(fileStream);
+                str = streamReader.ReadLine();
+                if (pass.Equals(str))
+                {
+                    str = streamReader.ReadLine();
+                    for (int i = 0; i<= Convert.ToInt32(str) ;i++)
+                    {
+                        Task task = new Task();
+                        str = streamReader.ReadLine();
+                        task.setTaskID(Convert.ToInt32(str));
+                        task.setTaskName(streamReader.ReadLine());
+                        task.setTaskDescription(streamReader.ReadLine());
+                        task.setTaskDate(Convert.ToDateTime(streamReader.ReadLine()));
+                        task.setStatus(Convert.ToInt32(streamReader.ReadLine()));
+                        Tasklist.Add(task);
+                        UpdateLists();
+                    }
+                    return true;
+                }
+                else return false;              
+                
+            }
+            return false;
+        }
+
+        private void ToDoList_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveUserDataToFile();
         }
     }
 }
