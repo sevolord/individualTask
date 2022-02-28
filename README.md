@@ -1,4 +1,5 @@
 # individualTask
+Видеоописание проекта: https://youtu.be/gSfRw7bW3Lo
 This project was completed to complete the assignment in the OOP discipline
 
 Каждое дело задается:
