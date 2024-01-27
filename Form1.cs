@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Net.NetworkInformation;
 
 namespace WindowsFormsApp1
 {
@@ -30,18 +31,18 @@ namespace WindowsFormsApp1
 
         private void BNewTask_Click(object sender, EventArgs e)
         {
-            TBTaskName.Focus();
-            BEdit.Visible = true;
+            using (Form2 form2 = new Form2())
+            {
+                DialogResult result = form2.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    Task newTask = new Task(form2.TBTaskName.Text, form2.RTBDescription.Text, form2.DTPTaskDate.Value, g_currenUser.getUserID()); ;
+                    Tasklist.Add(newTask);
+                    UpdateLists();
+                }
+            }
         }
 
-        private void BEdit_Click(object sender, EventArgs e)
-        {
-            Task newTask = new Task(TBTaskName.Text, RTBDescription.Text, DTPTaskDate.Value, g_currenUser.getUserID()); ;
-            Tasklist.Add(newTask);
-            BEdit.Visible = false;
-            
-            UpdateLists();
-        }
 
         private void UpdateLists()
         {
@@ -57,19 +58,37 @@ namespace WindowsFormsApp1
             }
             
         }
-
-        private void LBToDo_SelectedIndexChanged(object sender, EventArgs e) //событие клика на задачу в листбоксе
-        {   // выводим информацию о выделенной задаче в строку с именем, поле с описанием, поле с датой
-            // финт ушами: т.к. id task не содержится в listbox, т.к. нужно его перегружать, то сразу записываем id в "имя", потом считываем и ищем в глобальном списке нужную задачу
+        private void LBToDo_Click(object sender, EventArgs e)
+        {
             string nameTaskForListBox;
             try { nameTaskForListBox = LBToDo.SelectedItem.ToString(); }
-            catch { return; } //потому что можно щелкнуть мимо позиции в листе...
+            catch { return; }
             int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
             g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
-            TBTaskName.Text = g_currentTask.getTaskName();
-            RTBDescription.Text = g_currentTask.getTaskDescription();
-            DTPTaskDate.Value = g_currentTask.getTaskDate();
+        }
+        private void LBToDo_DoubleClick(object sender, EventArgs e)
+        {
+            string nameTaskForListBox;
+            try { nameTaskForListBox = LBToDo.SelectedItem.ToString(); }
+            catch { return; }
+            int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
+            g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
+            using (Form2 form2 = new Form2())
+            {
+                // Загрузка данных текущей задачи в форму для редактирования
+                form2.TBTaskName.Text = g_currentTask.getTaskName();
+                form2.RTBDescription.Text = g_currentTask.getTaskDescription();
+                form2.DTPTaskDate.Value = g_currentTask.getTaskDate();
+                if (form2.ShowDialog() == DialogResult.OK)
+                {
+                    // Обновление текущей задачи новыми данными из формы
+                    g_currentTask.setTaskName(form2.TBTaskName.Text);
+                    g_currentTask.setTaskDescription(form2.RTBDescription.Text);
+                    g_currentTask.setTaskDate(form2.DTPTaskDate.Value);
+                    UpdateLists();
+                }
             }
+        }
         private void LBProgress_SelectedIndexChanged(object sender, EventArgs e)
         {
             string nameTaskForListBox;
@@ -77,10 +96,31 @@ namespace WindowsFormsApp1
             catch { return; }
             int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
             g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
-            TBTaskName.Text = g_currentTask.getTaskName();
-            RTBDescription.Text = g_currentTask.getTaskDescription();
-            DTPTaskDate.Value = g_currentTask.getTaskDate();
         }
+        private void LBProgress_DoubleClick(object sender, EventArgs e)
+        {
+            string nameTaskForListBox;
+            try { nameTaskForListBox = LBProgress.SelectedItem.ToString(); }
+            catch { return; }
+            int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
+            g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
+            using (Form2 form2 = new Form2())
+            {
+                // Загрузка данных текущей задачи в форму для редактирования
+                form2.TBTaskName.Text = g_currentTask.getTaskName();
+                form2.RTBDescription.Text = g_currentTask.getTaskDescription();
+                form2.DTPTaskDate.Value = g_currentTask.getTaskDate();
+                if (form2.ShowDialog() == DialogResult.OK)
+                {
+                    // Обновление текущей задачи новыми данными из формы
+                    g_currentTask.setTaskName(form2.TBTaskName.Text);
+                    g_currentTask.setTaskDescription(form2.RTBDescription.Text);
+                    g_currentTask.setTaskDate(form2.DTPTaskDate.Value);
+                    UpdateLists();
+                }
+            }
+        }
+
         private void LBCompleted_SelectedIndexChanged(object sender, EventArgs e)
         {
             string nameTaskForListBox;
@@ -88,15 +128,33 @@ namespace WindowsFormsApp1
             catch { return; }
             int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
             g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
-            TBTaskName.Text = g_currentTask.getTaskName();
-            RTBDescription.Text = g_currentTask.getTaskDescription();
-            DTPTaskDate.Value = g_currentTask.getTaskDate();
+        }
+        private void LBCompleted_DoubleClick(object sender, EventArgs e)
+        {
+            //подрузамевается, что завершенные нельзя редактировать
+            string nameTaskForListBox;
+            try { nameTaskForListBox = LBCompleted.SelectedItem.ToString(); }
+            catch { return; }
+            int curTaskID = Convert.ToInt32(nameTaskForListBox.Substring(0, 1));
+            g_currentTask = Tasklist.Find(item => item.getTaskID() == curTaskID);
+
+            using (Form2 form2 = new Form2())
+            {
+                // Загрузка данных текущей задачи в форму для редактирования
+                form2.TBTaskName.Text = g_currentTask.getTaskName();
+                form2.TBTaskName.ReadOnly = true;
+                form2.RTBDescription.Text = g_currentTask.getTaskDescription();
+                form2.RTBDescription.ReadOnly = true;
+                form2.DTPTaskDate.Value = g_currentTask.getTaskDate();
+                form2.DTPTaskDate.Enabled = false;
+                if (form2.ShowDialog() == DialogResult.OK)
+                {
+                    //
+                }
+            }
         }
 
-        private void LBToDo_Click(object sender, EventArgs e)
-        {
-            //
-        }
+
 
         private void BLeft_Click(object sender, EventArgs e)
         {
@@ -122,73 +180,91 @@ namespace WindowsFormsApp1
         {
             int stat = g_currentTask.getTaskStatus();
             int ind = Tasklist.FindIndex(item => item.getTaskID() == g_currentTask.getTaskID());
-            if (stat == 3) Tasklist.RemoveAt(ind);
-            g_currentTask = null;
-            UpdateLists();
-            TBTaskName.Text = "";
-            RTBDescription.Text = "";
-            DTPTaskDate.Value = DateTime.Now;
+            //удалять можем только выполненные
+            if (stat == 3)
+            {
+                Tasklist.RemoveAt(ind);
+                g_currentTask = null;
+                UpdateLists();
+            }
         }
         public bool SaveUserDataToFile()
         {
-            String namefile = g_currenUser.getUserName();
-            namefile += ".txt";
-            using (FileStream fileStream = new FileStream(namefile, FileMode.Create))
+            try
             {
-                StreamWriter streamWriter = new StreamWriter(fileStream);
-                streamWriter.AutoFlush = true;
-                //int countTask = Tasklist.Count;
-                streamWriter.WriteLine(g_currenUser.getUserPass());
-                streamWriter.WriteLine(Tasklist.Count);
-                foreach (Task task in Tasklist)
+                String namefile = g_currenUser.getUserName();
+                namefile += ".txt";
+                using (FileStream fileStream = new FileStream(namefile, FileMode.Create))
                 {
-                    streamWriter.WriteLine(task.getTaskID());
-                    streamWriter.WriteLine(task.getTaskName());
-                    streamWriter.WriteLine(task.getTaskDescription());
-                    streamWriter.WriteLine(task.getTaskDate());
-                    streamWriter.WriteLine(task.getTaskStatus());
+                    StreamWriter streamWriter = new StreamWriter(fileStream);
+                    streamWriter.AutoFlush = true;
+                    //int countTask = Tasklist.Count;
+                    streamWriter.WriteLine(g_currenUser.getUserPass());
+                    streamWriter.WriteLine(Tasklist.Count);
+                    foreach (Task task in Tasklist)
+                    {
+                        streamWriter.WriteLine(task.getTaskID());
+                        streamWriter.WriteLine(task.getTaskName());
+                        streamWriter.WriteLine(task.getTaskDescription());
+                        streamWriter.WriteLine(task.getTaskDate());
+                        streamWriter.WriteLine(task.getTaskStatus());
+                    }
+
+                    return true;
                 }
-                
-                return true;
             }
-            return false;
+            catch (Exception e)
+            {
+                // Обработка исключений, например, если файл не найден или данные неверны
+                Console.WriteLine(e.Message);
+                return false;
+            }
         }
 
         public bool LoadUserDataFromFile(String user, String pass)
         {
-            String namefile = user;
-            namefile += ".txt";
-            string str;
-            using (FileStream fileStream = new FileStream(namefile, FileMode.Open))
+            string namefile = $"{user}.txt";
+            g_currenUser.setUserData(user, pass);
+            try
             {
-                StreamReader streamReader = new StreamReader(fileStream);
-                str = streamReader.ReadLine();
-                if (pass.Equals(str))
+                // Чтение всех строк из файла
+                string[] lines = File.ReadAllLines(namefile);
+
+                // Проверка пароля
+                if (!pass.Equals(lines[0])) return false;
+
+                // Обработка каждой задачи
+                int taskCount = Convert.ToInt32(lines[1]);
+                for (int i = 0; i < taskCount; i++)
                 {
-                    str = streamReader.ReadLine();
-                    for (int i = 0; i<= Convert.ToInt32(str) ;i++)
-                    {
-                        Task task = new Task();
-                        str = streamReader.ReadLine();
-                        task.setTaskID(Convert.ToInt32(str));
-                        task.setTaskName(streamReader.ReadLine());
-                        task.setTaskDescription(streamReader.ReadLine());
-                        task.setTaskDate(Convert.ToDateTime(streamReader.ReadLine()));
-                        task.setStatus(Convert.ToInt32(streamReader.ReadLine()));
-                        Tasklist.Add(task);
-                        UpdateLists();
-                    }
-                    return true;
+                    int lineIndex = 2 + i * 5;
+
+                    string name = lines[lineIndex + 1];
+                    string description = lines[lineIndex + 2];
+                    DateTime date = Convert.ToDateTime(lines[lineIndex + 3]);
+                    int status = Convert.ToInt32(lines[lineIndex + 4]);
+
+                    Task task = new Task(name, description, date, status);
+
+                    Tasklist.Add(task);
                 }
-                else return false;              
-                
+                 UpdateLists();
+                return true;
             }
-            return false;
+            catch (Exception e)
+            {
+                // Обработка исключений, например, если файл не найден или данные неверны
+                Console.WriteLine(e.Message);
+                return false;
+            }
         }
+
 
         private void ToDoList_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveUserDataToFile();
         }
+
+
     }
 }
